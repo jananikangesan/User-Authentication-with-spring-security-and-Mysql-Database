@@ -28,10 +28,18 @@ public class SecurityConfiguration {
 						.requestMatchers("/","/registration","/register").permitAll()
 						.requestMatchers("/index").authenticated()
 						.anyRequest().authenticated()				
-				).formLogin()
-        .defaultSuccessUrl("/index") // Redirect to index page after successful login
-        .permitAll();
-		http.logout().logoutSuccessUrl("/");
+				).formLogin(formLogin ->
+                formLogin
+                .loginPage("/login")
+                .defaultSuccessUrl("/index") // Redirect to index page after successful login
+                .permitAll()
+        )
+        .logout(logout ->
+            logout
+                .logoutSuccessUrl("/")
+                .permitAll()
+        )
+        .csrf().disable();
 			
 		return http.build();
 	}

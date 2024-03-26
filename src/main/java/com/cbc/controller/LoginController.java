@@ -2,8 +2,9 @@ package com.cbc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,25 +30,17 @@ public class LoginController {
 		return "home";
 	}
 	
-	/*
-	@GetMapping("/loginForm")
-	public String login(User user) {
-		return "login";
+	@GetMapping("/login")
+	public String login(@RequestParam(name = "error", required = false) String error, Model model) {
+	    if (error != null) {
+	        // If error parameter is present, add an error message to the model
+	        model.addAttribute("error", "Invalid username or password");
+	        // Return the login page with error message
+	        return "login";
+	    }
+	    // If no error, just return the login page
+	    return "login";
 	}
-	
-	@PostMapping("/login")
-	@ResponseBody
-	public String loginProcess(@RequestParam("username") String username, @RequestParam("password") String password) {
-		User dbUser=userRepository.findByUsername(username);
-		
-		if(dbUser!=null && (dbUser.getPassword()).equals(password)) {
-			return "redirect:index";
-		}
-		
-		return "Username or password wrong";
-	}
-	
-	*/
 	
 	@GetMapping("/registration")
     public String registerForm(@ModelAttribute("myuser") MyUser myuser) {
